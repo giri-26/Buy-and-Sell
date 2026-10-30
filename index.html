@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ReSell - Buy & Sell Used Products</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">Re<span>Sell</span></div>
+
+        <div class="location">
+            📍 <span>India</span>
+        </div>
+
+        <div class="nav-actions">
+            <button class="nav-link" onclick="scrollToProducts()">
+                Explore
+            </button>
+
+            <button class="sell-button" onclick="openSellForm()">
+                + SELL PRODUCT
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="tagline">BUY SMART. SELL EASY.</p>
+
+            <h1>Find great deals on<br>
+                <span>pre-loved products.</span>
+            </h1>
+
+            <p class="hero-description">
+                Buy and sell second-hand products at affordable prices.
+                Give your old items a new home!
+            </p>
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search mobiles, bikes, furniture..."
+                >
+
+                <button onclick="searchProducts()">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Section -->
+    <section class="categories">
+        <h2>Browse Categories</h2>
+
+        <div class="category-list">
+            <button class="category active" data-category="All">
+                🛍️ All
+            </button>
+
+            <button class="category" data-category="Mobiles">
+                📱 Mobiles
+            </button>
+
+            <button class="category" data-category="Electronics">
+                💻 Electronics
+            </button>
+
+            <button class="category" data-category="Vehicles">
+                🏍️ Vehicles
+            </button>
+
+            <button class="category" data-category="Furniture">
+                🛋️ Furniture
+            </button>
+
+            <button class="category" data-category="Fashion">
+                👕 Fashion
+            </button>
+
+            <button class="category" data-category="Others">
+                📦 Others
+            </button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <main class="products-section" id="productsSection">
+
+        <div class="section-heading">
+            <div>
+                <h2>Fresh Recommendations</h2>
+                <p>Discover pre-owned products at great prices.</p>
+            </div>
+
+            <span id="productCount">0 products</span>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+            <!-- Products are added using JavaScript -->
+        </div>
+
+        <div id="emptyMessage" class="empty-message" hidden>
+            <h3>No products found!</h3>
+            <p>Try another search or choose a different category.</p>
+        </div>
+
+    </main>
+
+    <!-- Sell Product Form -->
+    <div class="modal" id="sellModal">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2>Post Your Advertisement</h2>
+
+                <button
+                    class="close-button"
+                    onclick="closeSellForm()"
+                    aria-label="Close form"
+                >&times;</button>
+            </div>
+
+            <form id="sellForm">
+
+                <label for="productName">Product Name</label>
+                <input
+                    type="text"
+                    id="productName"
+                    placeholder="Example: Samsung Galaxy S22"
+                    maxlength="70"
+                    required
+                >
+
+                <label for="productPrice">Price (₹)</label>
+                <input
+                    type="number"
+                    id="productPrice"
+                    placeholder="Enter your selling price"
+                    min="1"
+                    max="100000000"
+                    required
+                >
+
+                <label for="productCategory">Category</label>
+                <select id="productCategory" required>
+                    <option value="">Select a category</option>
+                    <option value="Mobiles">Mobiles</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Vehicles">Vehicles</option>
+                    <option value="Furniture">Furniture</option>
+                    <option value="Fashion">Fashion</option>
+                    <option value="Others">Others</option>
+                </select>
+
+                <label for="productCondition">Product Condition</label>
+                <select id="productCondition" required>
+                    <option value="Like New">Like New</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                </select>
+
+                <label for="productImage">Image URL</label>
+                <input
+                    type="url"
+                    id="productImage"
+                    placeholder="https://example.com/product.jpg"
+                    maxlength="2000"
+                >
+
+                <label for="productDescription">Description</label>
+                <textarea
+                    id="productDescription"
+                    placeholder="Describe your product..."
+                    rows="4"
+                    maxlength="1000"
+                    required
+                ></textarea>
+
+                <label for="sellerLocation">Location</label>
+                <input
+                    type="text"
+                    id="sellerLocation"
+                    placeholder="Example: Chennai, Tamil Nadu"
+                    maxlength="100"
+                    required
+                >
+
+                <label for="sellerPhone">Contact Number (optional)</label>
+                <input
+                    type="tel"
+                    id="sellerPhone"
+                    placeholder="Enter a 10-digit mobile number"
+                    inputmode="numeric"
+                    pattern="[6-9][0-9]{9}"
+                    maxlength="10"
+                >
+
+                <button type="submit" class="submit-button">
+                    Post Advertisement
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content details-content">
+
+            <button
+                class="close-button details-close"
+                onclick="closeDetails()"
+                aria-label="Close product details"
+            >&times;</button>
+
+            <div id="productDetails"></div>
+
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- Footer -->
+    <footer>
+        <h2>ReSell</h2>
+        <p>Give used products a second life.</p>
+        <p>© 2026 ReSell Marketplace. Student project demo.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
